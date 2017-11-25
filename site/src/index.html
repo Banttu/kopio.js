@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hack-font/build/web/hack.min.css">
+  <link rel="stylesheet" href="./style.css">
+  <title>kopio.js</title>
+</head>
+<body>
+  <header>
+    <div class="title">kopio.<span class="title__accent">js</span></div>
+  </header>
+  <section>
+    <h1>What does it do?</h1>
+    <p>kopio.js is a light solution with no dependencies for doing copyable links/text for websites. It's powered by HTML5 data attributes + <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/execCommand" target="_blank" rel="noreferrer noopener">execCommand</a> and <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/execCommand" target="_blank" rel="noreferrer noopener">createRange</a> APIs.</p>
+  </section>
+  <section>
+    <h1>Instantiate</h1>
+    <p>The Kopio constructor has an optional string parameter that has to be a valid for use with the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector" target="_blank" rel="noreferrer noopener">querySelector</a>. The default selector is <span class="highlight">.kopio</span>. All elements that match the query will have click event listeners added to them.</p>
+    <pre class="js-snippet">
+<code>
+<span class="js-keyword">import</span> Kopio <span class="js-keyword">from</span> <span class="js-string">'kopio.js'</span>;
+
+<span class="js-keyword js-keyword--bold">new</span> Kopio();
+<span class="js-comment">// or</span>
+<span class="js-keyword js-keyword--bold">new</span> Kopio(<span class="js-string">'.custom'</span>);
+</code>
+    </pre>
+  </section>
+  <section>
+    <h1>Events</h1>
+    <p>The Kopio object emits only two events <span class="highlight">success</span> and <span class="highlight">error</span>. Both events pass the event trigger as a parameter for the callback.</p>
+    <pre class="js-snippet">
+<code>
+<span class="js-keyword">const</span> kopio <span class="js-operator">=</span> <span class="js-keyword js-keyword--bold">new</span> Kopio();
+kopio.<span class="js-function">on</span>(<span class="js-string">'success'</span>, (<span class="js-parameter">trigger</span>) <span class="js-operator">=></span> {
+
+});
+
+kopio.<span class="js-function">on</span>(<span class="js-string">'error'</span>, (<span class="js-parameter">trigger</span>) <span class="js-operator">=></span> {
+
+});
+</code>
+    </pre>
+  </section>
+  <section>
+    <h1>Example</h1>
+    <p>Simple example where the user can see when the copying is done.</p>
+    <div class="kopio" data-kopio-text="You did it!">COPY</div>
+    <input type="text" placeholder="Paste here">
+    <div class="spacer"></div>
+    <p>The code used for the example:</p>
+    <pre class="js-snippet">
+<code>
+<span class="js-keyword">const</span> kopio <span class="js-operator">=</span> <span class="js-keyword js-keyword--bold">new</span> Kopio();
+kopio.<span class="js-function">on</span>(<span class="js-string">'success'</span>, (<span class="js-parameter">trigger</span>) <span class="js-operator">=></span> {
+  <span class="js-keyword">const</span> el <span class="js-operator">=</span> <span class="js-global">document</span>.<span class="js-built_in">createElement</span>(<span class="js-string">'div'</span>);
+  <span class="js-keyword">const</span> text <span class="js-operator">=</span> <span class="js-global">document</span>.<span class="js-built_in">createTextNode</span>(<span class="js-string">'Copied'</span>);
+  el.classList.<span class="js-built_in">add</span>(<span class="js-string">'notify'</span>);
+  el.<span class="js-built_in">appendChild</span>(text);
+  trigger.<span class="js-built_in">appendChild</span>(el);
+  <span class="js-built_in">setTimeout</span>(() <span class="js-operator">=></span> {
+    el.<span class="js-built_in">remove</span>();
+  }, <span class="js-integer">500</span>);
+});
+</code>
+    </pre>
+  </section>
+  <footer>
+    <div class="author">Made by <a href="https://github.com/Banttu" rel="noopener noreferrer">Banttu</a> under MIT license</div>
+  </footer>
+  <script src="./bundle.js"></script>
+</body>
+</html>
