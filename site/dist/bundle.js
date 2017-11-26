@@ -140,7 +140,7 @@ var Kopio = function () {
     }
 
     /**
-     * @desc Creates a temp element and copies its contents
+     * @desc Creates a temp element if needed and emits copy results
      * @param {Event} - Click event
      */
 
@@ -151,22 +151,48 @@ var Kopio = function () {
           originalTarget = _ref.originalTarget;
 
       var trigger = target || originalTarget;
-      var tempText = trigger.getAttribute('data-kopio-text');
-      var tempEl = document.createElement('div');
-      tempEl.appendChild(document.createTextNode(tempText));
-      this.container.appendChild(tempEl);
+      var textElement = void 0,
+          result = void 0,
+          isTemp = void 0;
+      if (trigger.hasAttribute('data-kopio-target')) {
+        textElement = document.querySelector(trigger.getAttribute('data-kopio-target'));
+      } else if (trigger.hasAttribute('data-kopio-text')) {
+        var tempText = trigger.getAttribute('data-kopio-text');
+        textElement = document.createElement('div');
+        textElement.appendChild(document.createTextNode(tempText));
+        this.container.appendChild(textElement);
+        isTemp = true;
+      }
+      if (textElement) {
+        result = this.execCopy(textElement, isTemp);
+        if (result) {
+          this.emit('success', trigger);
+        } else {
+          this.emit('error', trigger);
+        }
+      }
+    }
+
+    /**
+     * @desc Creates range for selection and executes the copy command.
+     * @param {Node} element - Element which contents need to be copied.
+     * @param {boolean} isTemp - Flag for element removal.
+     */
+
+  }, {
+    key: 'execCopy',
+    value: function execCopy(element, isTemp) {
       var range = document.createRange();
-      range.selectNodeContents(tempEl);
+      range.selectNodeContents(element);
       var selection = window.getSelection();
       selection.removeAllRanges();
       selection.addRange(range);
       var result = document.execCommand('copy');
-      tempEl.remove();
-      if (result) {
-        this.emit('success', trigger);
-      } else {
-        this.emit('error', trigger);
+      selection.removeAllRanges();
+      if (isTemp) {
+        element.remove();
       }
+      return result;
     }
 
     /**
@@ -180,7 +206,7 @@ var Kopio = function () {
     value: function emit(eventName, trigger) {
       var event = this.events[eventName];
       if (event) {
-        event.call(null, trigger);
+        event(trigger);
       }
     }
 
@@ -197,7 +223,6 @@ var Kopio = function () {
         return;
       }
       this.events[eventName] = callback;
-      // return () => this.events[eventName];
     }
   }]);
 

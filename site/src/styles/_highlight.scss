@@ -2,6 +2,11 @@
   color: $color-fg;
   background-color: $color-bg;
   border-radius: 5px;
+  width: 100%;
+  display: block;
+  padding: 16px;
+  box-sizing: border-box;
+  overflow: auto;
 }
 
 .js-tag,

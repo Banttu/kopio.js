@@ -1,14 +1,14 @@
 import Kopio from 'kopio.js'
 
-const kopio = new Kopio();
+const kopio = new Kopio()
 
 kopio.on('success', (trigger) => {
-  const el = document.createElement('div');
-  const text = document.createTextNode('Copied');
-  el.classList.add('notify');
-  el.appendChild(text);
-  trigger.appendChild(el);
+  const el = document.createElement('div')
+  const text = document.createTextNode('Copied')
+  el.classList.add('notify')
+  el.appendChild(text)
+  trigger.appendChild(el)
   setTimeout(() => {
-    el.remove();
-  }, 500);
-});
+    el.remove()
+  }, 500)
+})

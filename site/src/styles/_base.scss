@@ -18,7 +18,7 @@ body {
 
 section {
   margin: auto;
-  max-width: 600px;
+  max-width: 720px;
   margin-bottom: 80px;
   padding: 0 16px;
 }
@@ -30,8 +30,17 @@ code {
 }
 
 pre {
-  overflow: auto;
-  padding: 0 25px;
+  display: flex;
+  position: relative;
+  margin: 0;
+
+  @media (min-width: 769px) {
+    &:hover {
+      .copy {
+        visibility: visible;
+      }
+    }
+  }
 }
 
 input {
@@ -39,9 +48,10 @@ input {
   border-radius: 5px;
   border: none;
   color: $color-text;
-  height: 28px;
+  height: 40px;
   margin-left: 8px;
   padding: 0 8px;
+  font-size: 20px;
 }
 
 header {
@@ -59,7 +69,6 @@ footer {
 
 a {
   color: $color-pink;
-  text-decoration-style: dotted;
 }
 
 h1 {
@@ -70,20 +79,19 @@ h1 {
   background: $color-selection;
 }
 
-.kopio {
+.btn {
   align-items: center;
   background-color: $color-bg;
   border-radius: 5px;
+  border: none;
   cursor: pointer;
   display: inline-flex;
-  font-size: 14px;
-  height: 28px;
-  padding: 0 10px;
+  font-size: 20px;
+  padding: 8px 16px;
   position: relative;
   transition: background-color .1s ease-in-out;
   user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
+  color: $color-text;
 
   &:hover {
     background-color: mix($color-bg, $color-cl);
@@ -123,4 +131,41 @@ h1 {
 
 .spacer {
   margin-bottom: 50px;
+}
+
+.copy {
+  background-color: rgba($color-cyan, .57);
+  border-radius: 0 5px;
+  border: none;
+  color: $color-text;
+  cursor: pointer;
+  padding: 8px;
+  position: absolute;
+  right: 0;
+  user-select: none;
+  visibility: visible;
+
+  @media (min-width: 769px) {
+    visibility: hidden;
+  }
+}
+
+.description {
+  font-size: 1.5em;
+}
+
+.example {
+  display: flex;
+}
+
+.github-link {
+  position: absolute;
+  padding: 16px;
+  right: 0;
+  top: 0;
+
+  img {
+    height: 50px;
+    width: 50px;
+  }
 }
